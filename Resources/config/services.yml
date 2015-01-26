@@ -1,2 +1,13 @@
-services:
+parameters:
+    eduardtrayan_faststorage.service.fast_storage.memcache.class: Eduardtrayan\FaststorageBundle\Service\MemcacheFastStorage
 
+services:
+    eduardtrayan_faststorage.service.fast_storage.memcache:
+        class: %eduardtrayan_faststorage.service.fast_storage.memcache.class%
+        arguments:
+            - ''
+            - ''
+        lazy: true
+        public: false
+        tags:
+            - { name: fast_storage.storage, alias: memcache }

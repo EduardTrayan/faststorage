@@ -20,9 +20,28 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('eduardtrayan_faststorage');
 
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+        $rootNode
+            ->children()
+                ->scalarNode('default_storage')
+                    ->defaultNull()
+                ->end()
+                ->arrayNode('storage')
+                    ->useAttributeAsKey('storage_name')
+                    ->prototype('array')
+                        ->children()
+                            ->scalarNode('host')
+                                ->isRequired()
+                                ->cannotBeEmpty()
+                            ->end()
+                            ->integerNode('port')
+                                ->isRequired()
+                                ->cannotBeEmpty()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
 
         return $treeBuilder;
     }
