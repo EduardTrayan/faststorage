@@ -1,0 +1,30 @@
+{
+    "name": "eduardtrayan/faststorage-bundle",
+    "type": "symfony-bundle",
+    "description": "Bundle for encapsulation working with in-memory storage",
+    "keywords": ["memcache","redis","storage"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Eduard Trayan",
+            "email": "eduardtrayan@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "symfony/framework-bundle": ">=2.3",
+        "ext-memcache": "~3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0"
+    },
+    "autoload": {
+        "psr-0": { "EduardTrayan\\FaststorageBundle": "" }
+    },
+    "target-dir": "EduardTrayan/FaststorageBundle",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.1.x-dev"
+        }
+    }
+}
