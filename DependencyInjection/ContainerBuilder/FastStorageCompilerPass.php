@@ -16,6 +16,10 @@ class FastStorageCompilerPass implements CompilerPassInterface
     /** {@inheritdoc} */
     public function process(ContainerBuilder $container)
     {
+        if (!$container->hasDefinition('fast_storage')) {
+            return;
+        }
+
         $configs = $container->getExtensionConfig('eduardtrayan_faststorage');
         $config = array_shift($configs);
 
@@ -25,16 +29,16 @@ class FastStorageCompilerPass implements CompilerPassInterface
 
         $defaultStorage = $config['default_storage'];
 
-        $storage = $container->findTaggedServiceIds('fast_storage.storage');
+        $drivers = $container->findTaggedServiceIds('fast_storage.driver');
 
-        foreach ($storage as $id => $tags) {
+        foreach ($drivers as $id => $tags) {
             foreach ($tags as $attributes) {
                 if (!isset($attributes['alias'])) {
                     continue;
                 }
 
                 if ($attributes['alias'] === $defaultStorage) {
-                    $container->setAlias('fast_storage', $id);
+                    $container->setAlias('fast_storage.driver', $id);
 
                     $this->configureStorage($container->getDefinition($id), $config, $defaultStorage);
 

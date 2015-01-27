@@ -2,9 +2,9 @@
 
 namespace Eduardtrayan\FaststorageBundle\Service;
 
-use Eduardtrayan\FaststorageBundle\Exception\MemcacheConnectionException;
+use Eduardtrayan\FaststorageBundle\Exception\FastStorageDriverConnectionException;
 
-class MemcacheFastStorage extends FastStorageAbstract
+class MemcacheFastStorageDriver implements FastStorageDriverInterface
 {
     /**
      * @var \Memcache|null
@@ -12,24 +12,38 @@ class MemcacheFastStorage extends FastStorageAbstract
     private $connection = null;
 
     /**
+     * @var string
+     */
+    private $host;
+
+    /**
+     * @var integer
+     */
+    private $port;
+
+    /**
      * @param string $host
      * @param integer $port
-     * @throws MemcacheConnectionException
      */
     public function __construct($host, $port)
     {
+        $this->host = $host;
+        $this->port = $port;
+    }
+
+    /** {@inheritdoc} */
+    public function connect()
+    {
         $this->connection = new \Memcache();
 
-        if (!$this->connection->connect($host, $port)) {
-            throw new MemcacheConnectionException();
+        if (!$this->connection->connect($this->host, $this->port)) {
+            throw new FastStorageDriverConnectionException();
         }
     }
 
     /** {@inheritdoc} */
     public function set($key, $value)
     {
-        $this->checkInputValue($value);
-
         return $this->connection->set($key, $value);
     }
 

@@ -1,13 +1,27 @@
 parameters:
-    eduardtrayan_faststorage.service.fast_storage.memcache.class: Eduardtrayan\FaststorageBundle\Service\MemcacheFastStorage
+    eduardtrayan_faststorage.fast_storage.driver.memcache.class: Eduardtrayan\FaststorageBundle\Service\MemcacheFastStorageDriver
+    eduardtrayan_faststorage.fast_storage.driver.blackhole.class: Eduardtrayan\FaststorageBundle\Service\BlackHoleFastStorageDriver
+    eduardtrayan_faststorage.fast_storage.service.class: Eduardtrayan\FaststorageBundle\Service\FastStorageService
 
 services:
-    eduardtrayan_faststorage.service.fast_storage.memcache:
-        class: %eduardtrayan_faststorage.service.fast_storage.memcache.class%
+    eduardtrayan_faststorage.fast_storage.driver.memcache:
+        class: %eduardtrayan_faststorage.fast_storage.driver.memcache.class%
         arguments:
             - ''
             - ''
         lazy: true
         public: false
         tags:
-            - { name: fast_storage.storage, alias: memcache }
+            - { name: fast_storage.driver, alias: memcache }
+
+    eduardtrayan_faststorage.fast_storage.driver.blackhole:
+        class: %eduardtrayan_faststorage.fast_storage.driver.blackhole.class%
+        lazy: true
+
+    fast_storage:
+        class: %eduardtrayan_faststorage.fast_storage.service.class%
+        lazy: true
+        arguments:
+            - @validator
+            - @?fast_storage.driver
+
