@@ -1,6 +1,6 @@
 parameters:
     eduardtrayan_faststorage.fast_storage.driver.memcache.class: Eduardtrayan\FaststorageBundle\Service\MemcacheFastStorageDriver
-    eduardtrayan_faststorage.fast_storage.driver.blackhole.class: Eduardtrayan\FaststorageBundle\Service\BlackHoleFastStorageDriver
+    eduardtrayan_faststorage.fast_storage.driver.redis.class: Eduardtrayan\FaststorageBundle\Service\RedisFastStorageDriver
     eduardtrayan_faststorage.fast_storage.service.class: Eduardtrayan\FaststorageBundle\Service\FastStorageService
 
 services:
@@ -14,9 +14,15 @@ services:
         tags:
             - { name: fast_storage.driver, alias: memcache }
 
-    eduardtrayan_faststorage.fast_storage.driver.blackhole:
-        class: %eduardtrayan_faststorage.fast_storage.driver.blackhole.class%
+    eduardtrayan_faststorage.fast_storage.driver.redis:
+        class: %eduardtrayan_faststorage.fast_storage.driver.redis.class%
+        arguments:
+            - ''
+            - ''
         lazy: true
+        public: false
+        tags:
+            - { name: fast_storage.driver, alias: redis }
 
     fast_storage:
         class: %eduardtrayan_faststorage.fast_storage.service.class%
