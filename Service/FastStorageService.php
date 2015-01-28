@@ -61,9 +61,13 @@ class FastStorageService implements FastStorageInterface
     {
         $this->checkInputValue($value);
 
-        $result = $this->driver->set($key, $value);
+        try {
+            $result = $this->driver->set($key, $value);
 
-        $this->checkResult($result, 'set', $key);
+            $this->checkResult($result, __FUNCTION__, $key);
+        } catch (\Exception $e) {
+            throw new FastStorageInvalidResultException($e->getMessage());
+        }
 
         return $result;
     }
@@ -71,9 +75,13 @@ class FastStorageService implements FastStorageInterface
     /** {@inheritdoc} */
     public function get($key)
     {
-        $result = $this->driver->get($key);
+        try {
+            $result = $this->driver->get($key);
 
-        $this->checkResult($result, 'get', $key);
+            $this->checkResult($result, __FUNCTION__, $key);
+        } catch (\Exception $e) {
+            throw new FastStorageInvalidResultException($e->getMessage());
+        }
 
         return $result;
     }
@@ -81,9 +89,13 @@ class FastStorageService implements FastStorageInterface
     /** {@inheritdoc} */
     public function increment($key)
     {
-        $result = $this->driver->increment($key);
+        try {
+            $result = $this->driver->increment($key);
 
-        $this->checkResult($result, 'increment', $key);
+            $this->checkResult($result, __FUNCTION__, $key);
+        } catch (\Exception $e) {
+            throw new FastStorageInvalidResultException($e->getMessage());
+        }
 
         return $result;
     }
@@ -91,9 +103,13 @@ class FastStorageService implements FastStorageInterface
     /** {@inheritdoc} */
     public function decrement($key)
     {
-        $result = $this->driver->decrement($key);
+        try {
+            $result = $this->driver->decrement($key);
 
-        $this->checkResult($result, 'decrement', $key);
+            $this->checkResult($result, __FUNCTION__, $key);
+        } catch (\Exception $e) {
+            throw new FastStorageInvalidResultException($e->getMessage());
+        }
 
         return $result;
     }
@@ -101,9 +117,13 @@ class FastStorageService implements FastStorageInterface
     /** {@inheritdoc} */
     public function delete($key)
     {
-        $result = $this->driver->delete($key);
+        try {
+            $result = $this->driver->delete($key);
 
-        $this->checkResult($result, 'delete', $key);
+            $this->checkResult($result, __FUNCTION__, $key);
+        } catch (\Exception $e) {
+            throw new FastStorageInvalidResultException($e->getMessage());
+        }
 
         return $result;
     }
